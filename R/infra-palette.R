@@ -4,9 +4,9 @@
 #'
 #' Specific functions include:
 #' \itemize{
-#' \item{scale_(color/colour/fill)_discrete_rtistic}{Discrete palette with either fixed or dynamically extended number of shades}
-#' \item{scale_(color/colour/fill)_opinionated_rtistic}{Discrete palette with specific values for "good", "bad", and "neutral"}
-#' \item{scale_(color/colour/fill)_diverging_rtistic}{Continuous diverging color palette}
+#' \item{scale_(color/colour/fill)_discrete_paintbynumbers}{Discrete palette with either fixed or dynamically extended number of shades}
+#' \item{scale_(color/colour/fill)_opinionated_paintbynumbers}{Discrete palette with specific values for "good", "bad", and "neutral"}
+#' \item{scale_(color/colour/fill)_diverging_paintbynumbers}{Continuous diverging color palette}
 #' \item{scale_(color/colour/fill)_continuous}{COntinuous color palette}
 #' }
 #'
@@ -23,7 +23,7 @@ NULL
 
 #' @rdname scale_custom
 #' @export
-scale_color_discrete_rtistic <- function(palette = "test", extend = FALSE, ...){
+scale_color_discrete_paintbynumbers <- function(palette = "test", extend = FALSE, ...){
 
   pal <- retrieve_palette(palette, "base")
   ggplot2::discrete_scale("colour", "test",
@@ -35,11 +35,11 @@ scale_color_discrete_rtistic <- function(palette = "test", extend = FALSE, ...){
 
 #' @rdname scale_custom
 #' @export
-scale_colour_discrete_rtistic <- scale_color_discrete_rtistic
+scale_colour_discrete_paintbynumbers <- scale_color_discrete_paintbynumbers
 
 #' @rdname scale_custom
 #' @export
-scale_fill_discrete_rtistic <- function(palette = "test", extend = FALSE, ...){
+scale_fill_discrete_paintbynumbers <- function(palette = "test", extend = FALSE, ...){
 
   pal <- retrieve_palette(palette, "base")
   ggplot2::discrete_scale("fill", "test",
@@ -53,7 +53,7 @@ scale_fill_discrete_rtistic <- function(palette = "test", extend = FALSE, ...){
 
 #' @rdname scale_custom
 #' @export
-scale_color_opinionated_rtistic <- function(palette = "test", ...){
+scale_color_opinionated_paintbynumbers <- function(palette = "test", ...){
 
   pal <- retrieve_palette(palette, "op")[1:3]
   names(pal) <- c("good", "neutral", "bad")
@@ -63,11 +63,11 @@ scale_color_opinionated_rtistic <- function(palette = "test", ...){
 
 #' @rdname scale_custom
 #' @export
-scale_colour_opinionated_rtistic <- scale_color_discrete_rtistic
+scale_colour_opinionated_paintbynumbers <- scale_color_discrete_paintbynumbers
 
 #' @rdname scale_custom
 #' @export
-scale_fill_opinionated_rtistic <- function(palette = "test", ...){
+scale_fill_opinionated_paintbynumbers <- function(palette = "test", ...){
 
   pal <- retrieve_palette(palette, "op")[1:3]
   names(pal) <- c("good", "neutral", "bad")
@@ -79,7 +79,7 @@ scale_fill_opinionated_rtistic <- function(palette = "test", ...){
 
 #' @rdname scale_custom
 #' @export
-scale_color_diverging_rtistic <- function(palette = "test", ...) {
+scale_color_diverging_paintbynumbers <- function(palette = "test", ...) {
 
   pal <- retrieve_palette(palette, "div")
   ggplot2::scale_colour_gradient2(low = pal[3],
@@ -91,11 +91,11 @@ scale_color_diverging_rtistic <- function(palette = "test", ...) {
 
 #' @rdname scale_custom
 #' @export
-scale_colour_diverging_rtistic <- scale_color_diverging_rtistic
+scale_colour_diverging_paintbynumbers <- scale_color_diverging_paintbynumbers
 
 #' @rdname scale_custom
 #' @export
-scale_fill_diverging_rtistic <- function(palette = "test", ...) {
+scale_fill_diverging_paintbynumbers <- function(palette = "test", ...) {
 
   pal <- retrieve_palette(palette, "div")
   ggplot2::scale_fill_gradient2(low = pal[3],
@@ -109,7 +109,7 @@ scale_fill_diverging_rtistic <- function(palette = "test", ...) {
 
 #' @rdname scale_custom
 #' @export
-scale_color_continuous_rtistic <- function(palette = "test", ...) {
+scale_color_continuous_paintbynumbers <- function(palette = "test", ...) {
 
   pal <- retrieve_palette(palette, "cont")
   ggplot2::scale_colour_gradient(low = pal[1],
@@ -120,11 +120,11 @@ scale_color_continuous_rtistic <- function(palette = "test", ...) {
 
 #' @rdname scale_custom
 #' @export
-scale_colour_continuous_rtistic <- scale_color_continuous_rtistic
+scale_colour_continuous_paintbynumbers <- scale_color_continuous_paintbynumbers
 
 #' @rdname scale_custom
 #' @export
-scale_fill_continuous_rtistic <- function(palette = "test", ...) {
+scale_fill_continuous_paintbynumbers <- function(palette = "test", ...) {
 
   pal <- retrieve_palette(palette, "cont")
   ggplot2::scale_fill_gradient(low = pal[1], high = pal[2], ...)
@@ -133,18 +133,18 @@ scale_fill_continuous_rtistic <- function(palette = "test", ...) {
 
 # HELPERS ----
 
-#' Get names of all unique palettes provided in Rtistic
+#' Get names of all unique palettes provided in paintbynumbers
 #'
 #' @param full Whether to include full palette names (with suffixes, e.g. \code{_cont}) or just stubs
 #' @return Vector of palette name stubs or full names
 #' @export
 #'
-#' @examples get_rtistic_palettes()
+#' @examples get_paintbynumbers_palettes()
 
-get_rtistic_palettes <- function(full = FALSE){
+get_paintbynumbers_palettes <- function(full = FALSE){
 
   re <- if (full) "^.*_pal(_op|_cont|_div)?$" else "^.*_pal$"
-  grep(re, getNamespaceExports("Rtistic"), value = TRUE)
+  grep(re, getNamespaceExports("paintbynumbers"), value = TRUE)
 
 }
 
@@ -181,17 +181,17 @@ retrieve_palette <- function(name, type = c("base", "op", "div", "cont")){
   # attempt to get palette requrested
   pal_base <- paste0(name, "_pal")
   pal_name <- if (type == "base") pal_base else paste0(name, "_pal_", type)
-  pal <- try(utils::getFromNamespace(pal_name, "Rtistic"))
+  pal <- try(utils::getFromNamespace(pal_name, "paintbynumbers"))
 
   # if fails, attempt to use base palette
   if (class(pal) == "try-error") {
-    pal <- try(utils::getFromNamespace(pal_base, "Rtistic"))
+    pal <- try(utils::getFromNamespace(pal_base, "paintbynumbers"))
   }
 
   # if base fails, throw error
   if (class(pal) == "try-error") {
     stop("No such palette exists. ",
-         "Run get_rtistic_palettes() to see options. ",
+         "Run get_paintbynumbers_palettes() to see options. ",
          call. = FALSE)
   }
 
